@@ -64,85 +64,86 @@
 // I just have to check numbers whether they are triangle numbers or not.
 // The major problem was that input values can be up to `10^18`.
 
-#include <string>
-#include <iostream>
-#include <cmath>
-
-const int NoTriangle = 0;
-// return triangle index or -1 if not a triangle number
-int getTriangle(unsigned long long x)
-{
-  unsigned long long n = sqrt(2*x);
-
-  // if n it truely the right answer then t(n) = x
-  unsigned long long check = n * (n + 1) / 2;
-  if (x == check)
-    return n;
-  else
-    return NoTriangle;
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+#define f(a,b,c)                for(int a=b;a<c;a++)
+#define s(x)                    scanf("%d",&x);
+#define sl(x)                   scanf("%lld",&x);
+#define p(x)                    printf("%d\n",x);
+#define p2(x,y)                 printf("%d %d\n",x,y);
+#define pl(x)                   printf("%lld\n",x);
+#define pl2(x,y)                printf("%lld %lld\n",x,y);
+#define p1d(a,n)                for(int ix=0;ix<n;ix++) printf("%d ",a[ix]); printf("\n");
+#define p2d(a,n,m)              for(int ix=0;ix<n;ix++){ for(int jx=0;jx<m;jx++) printf("%d ",a[ix][jx]); printf("\n");}
+void input(){
+    #ifdef Megamind
+            #define DEBUG
+            #define TRACE
+            freopen("inp.txt","r",stdin);
+            //freopen("out1.txt","w",stdout);
+    #endif
 }
-
-// read a single word from STDIN, syntax: "abc","def","xyz"
-std::string readWord()
-{
-  std::string result;
-  while (true)
-  {
-    // read one character
-    char c = std::cin.get();
-    // no more input ?
-    if (!std::cin)
-      break;
-
-    // ignore quotes
-    if (c == '"')
-      continue;
-    // finish when a comma appears
-    if (c == ',')
-      break;
-
-    // nope, just an ordinary letter (no further checks whether c in 'A'..'Z')
-    result += c;
-  }
-  return result;
-}
-
-int main()
-{
-//#define ORIGINAL
-#ifdef ORIGINAL
-
-  unsigned int triangleWords = 0;
-  while (true)
-  {
-    // read next word
-    auto word = readWord();
-    if (word.empty())
-      break;
-
-    unsigned int sum = 0;
-    // A = 1, B = 2, ...
-    for (auto c : word)
-      sum += c - 'A' + 1; // all words contain only uppercase letters without spaces or other characters
-
-    // another "triangle word" ?
-    if (getTriangle(sum) != NoTriangle)
-      triangleWords++;
-  }
-  std::cout << triangleWords << std::endl;
-
+#ifdef TRACE
+    #define trace(x)                       cerr<<__FUNCTION__<<":"<<__LINE__<<": "#x" = "<<x<<endl;
+    #define trace2(x,y)                    cerr<<__FUNCTION__<<":"<<__LINE__<<": "#x" = "<<x<<" | "#y" = "<<y<<endl;
+    #define trace3(x,y,z)                  cerr<<__FUNCTION__<<":"<<__LINE__<<": "#x" = "<<x<<" | "#y" = "<<y<<" | "#z" = "<<z<<endl;
 #else
-
-  unsigned int tests;
-  std::cin >> tests;
-  while (tests--)
-  {
-    // all work is done in getTriangle()
-    unsigned long long x;
-    std::cin >> x;
-    std::cout << getTriangle(x) << std::endl;
-  }
+    #define trace(x)
+    #define trace2(x,y)
+    #define trace3(x,y,z) 
 #endif
 
-  return 0;
+inline ll power(ll a, ll b, ll m) {
+    ll r = 1;
+    while(b) {
+        if(b & 1) r = r * a % m;
+        a = (a * a)% m;
+        b >>= 1;
+    }
+    return r;
+}
+inline ll power(ll a, ll b) {
+     ll r = 1;
+    while(b) {
+        if(b & 1) r = r * a ;
+        a = a * a;
+        b >>= 1;
+    }
+    return r;
+}
+ 
+/*........................................................END OF TEMPLATES.......................................................................*/
+
+ll findroot(ll num){
+	ll low = 0, high = 10000000003,mid;
+	
+	while(low<high){
+		mid = (low+high)/2;
+		
+		if(mid*mid == num) return mid;
+		if(mid*mid < num)  low = mid+1;
+		else               high = mid;
+	}
+	
+	return -1;
+}
+
+
+int main(){
+	input();
+	int t;
+	ll v;
+	s(t);
+	while(t--){
+		sl(v);
+		ll squareroot = (findroot(1 + 8*v) - 1)/2;
+        
+		if(squareroot*(squareroot+1)/2 != v) puts("-1");
+		else 				                 pl(squareroot);
+	}
+	
+	#ifdef Megamind
+		cout << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC * 1000 << " ms." << endl;
+    #endif
 }
